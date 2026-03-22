@@ -1,0 +1,15 @@
+title: Nisseem Nabar
+description: Thoughts on technology, engineering, and life.
+url: "https://nissimnabar.github.io"
+baseurl: ""
+
+permalink: /:year/:month/:day/:title/
+
+markdown: kramdown
+highlighter: rouge
+
+# Build settings
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
