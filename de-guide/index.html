@@ -52,19 +52,21 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-
 
 .wrap {
   max-width: 1120px; margin: 0 auto;
-  display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 56px;
+  display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 56px;
   padding-block: 48px 80px;
 }
 
 /* Index */
-.index { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; font-family: var(--f-display); }
+.index { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; font-family: var(--f-display); max-height: calc(100vh - 48px); overflow-y: auto; }
 .index .brand { font-weight: 800; font-stretch: 85%; font-size: 1.05rem; line-height: 1.2; margin: 0 0 4px; }
-.index .ver { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); margin: 0 0 24px; }
-.index ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.index .ver { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); margin: 0 0 20px; }
+.index .part { font-family: var(--f-mono); font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 14px 8px 4px; }
+.index .part:first-of-type { margin-top: 0; }
+.index ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
 .index a {
-  display: grid; grid-template-columns: 28px 1fr auto; align-items: baseline; gap: 6px;
-  text-decoration: none; color: var(--ink); font-size: 0.88rem; font-weight: 500;
-  padding: 6px 8px; border-radius: 6px;
+  display: grid; grid-template-columns: 26px 1fr auto; align-items: baseline; gap: 6px;
+  text-decoration: none; color: var(--ink); font-size: 0.86rem; font-weight: 500;
+  padding: 5px 8px; border-radius: 6px;
 }
 .index a:hover { background: var(--accent-soft); }
 .index .n { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); }
@@ -82,9 +84,15 @@ h1 {
 .intro { max-width: 65ch; margin: 0 0 12px; }
 .status-line { font-family: var(--f-mono); font-size: 0.8rem; color: var(--muted); margin: 0 0 40px; font-variant-numeric: tabular-nums; }
 
+/* How each section works */
+.howto { margin: 0 0 48px; }
+.howto h2, .lifecycle h2 { font-family: var(--f-display); font-stretch: 85%; font-size: 1.1rem; font-weight: 700; margin: 0 0 12px; }
+.legend { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 8px; }
+.legend li { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; min-width: 0; font-size: 0.9rem; line-height: 1.45; }
+.legend b { display: block; font-family: var(--f-mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+
 /* Lifecycle */
-.lifecycle { margin: 0 0 64px; }
-.lifecycle h2 { font-family: var(--f-display); font-stretch: 85%; font-size: 1.1rem; font-weight: 700; margin: 0 0 6px; }
+.lifecycle { margin: 0 0 56px; }
 .lifecycle p { color: var(--muted); font-size: 0.95rem; margin: 0 0 18px; max-width: 65ch; }
 .stages { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .stages li {
@@ -100,45 +108,58 @@ h1 {
 }
 .under strong { color: var(--ink); font-weight: 500; }
 
+/* Parts */
+.part-head { padding-block: 40px 8px; }
+.part-head .eyebrow { margin-bottom: 6px; }
+.part-head h2 { font-family: var(--f-display); font-weight: 800; font-stretch: 80%; font-size: clamp(1.7rem, 4vw, 2.4rem); line-height: 1.05; margin: 0 0 8px; text-wrap: balance; }
+.part-head p { color: var(--muted); margin: 0; max-width: 65ch; }
+
 /* Sections */
-.sec { border-top: 1px solid var(--line); padding-block: 40px; scroll-margin-top: 16px; }
+.sec, .stub { border-top: 1px solid var(--line); scroll-margin-top: 16px; }
+.sec { padding-block: 40px; }
+.stub { padding-block: 26px; }
 .sec-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; margin-bottom: 8px; }
 .sec-head .n { font-family: var(--f-mono); font-size: 0.85rem; color: var(--muted); }
-.sec h2 {
+.sec h3.title, .stub h3.title {
   font-family: var(--f-display); font-weight: 700; font-stretch: 85%;
-  font-size: clamp(1.5rem, 3.2vw, 2rem); line-height: 1.15; margin: 0; text-wrap: balance;
+  font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.15; margin: 0; text-wrap: balance;
 }
+.stub h3.title { font-size: clamp(1.15rem, 2.4vw, 1.35rem); }
 .chip {
   font-family: var(--f-mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 3px 8px; border-radius: 999px; background: var(--bg); color: var(--muted); border: 1px solid var(--line);
+  padding: 3px 8px; border-radius: 999px; background: var(--bg); color: var(--muted); border: 1px solid var(--line); white-space: nowrap;
 }
 .chip.next { background: var(--next-soft); color: var(--next); border-color: transparent; }
 .chip.done { background: var(--done-soft); color: var(--done); border-color: transparent; }
 .lede { font-style: italic; color: var(--muted); margin: 0 0 6px; max-width: 65ch; }
-.src { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); margin: 0; }
+.src { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); margin: 0; font-variant-numeric: tabular-nums; }
+
+.subs { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 3px; max-width: 65ch; font-size: 0.95rem; }
+.subs li { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.subs .sn { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.deep { font-family: var(--f-mono); font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--next); background: var(--next-soft); padding: 1px 6px; border-radius: 3px; margin-left: 6px; white-space: nowrap; }
+.light { font-family: var(--f-mono); font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); padding: 0 6px; border-radius: 3px; margin-left: 6px; white-space: nowrap; }
 
 .blocks { display: grid; gap: 14px; margin-top: 24px; }
 .block { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 18px 20px; min-width: 0; }
-.block h3 {
+.block h4 {
   font-family: var(--f-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--accent); margin: 0 0 10px;
 }
 .block p { margin: 0; max-width: 65ch; }
 .block.mine { border-left: 3px solid var(--accent); }
+.block.lens h4 { color: var(--next); }
+.pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
 .pending { color: var(--muted); font-style: italic; }
 .qs { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .qs li { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; align-items: baseline; }
 .lvl { font-family: var(--f-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
 
-.stub { border-top: 1px solid var(--line); padding-block: 22px; scroll-margin-top: 16px; }
-.stub h2 { font-size: 1.2rem; }
-
 footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px; font-size: 0.85rem; color: var(--muted); max-width: 65ch; }
 
 @media (max-width: 860px) {
   .wrap { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-block: 28px 56px; }
-  .index { position: static; border: 1px solid var(--line); border-radius: 6px; padding: 14px; background: var(--surface); }
-  .index .ver { margin-bottom: 12px; }
+  .index { position: static; max-height: none; border: 1px solid var(--line); border-radius: 6px; padding: 14px; background: var(--surface); }
   .qs li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
 }
 </style>
@@ -148,30 +169,52 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px;
 <div class="wrap">
   <nav class="index" aria-label="Sections">
     <p class="brand">The Data Engineering Map</p>
-    <p class="ver">v0.1 · Oct 2026</p>
+    <p class="ver">v0.2 · Oct 2026</p>
+    <p class="part">I · Foundations</p>
     <ol>
       <li><a href="#s1"><span class="n">01</span>The lifecycle<span class="dot next" title="Up next"></span></a></li>
       <li><a href="#s2"><span class="n">02</span>Good architecture<span class="dot"></span></a></li>
       <li><a href="#s3"><span class="n">03</span>Choosing technologies<span class="dot"></span></a></li>
+    </ol>
+    <p class="part">II · The lifecycle in depth</p>
+    <ol>
       <li><a href="#s4"><span class="n">04</span>Source systems<span class="dot"></span></a></li>
       <li><a href="#s5"><span class="n">05</span>Storage<span class="dot"></span></a></li>
       <li><a href="#s6"><span class="n">06</span>Ingestion<span class="dot"></span></a></li>
       <li><a href="#s7"><span class="n">07</span>Modelling and transformation<span class="dot"></span></a></li>
       <li><a href="#s8"><span class="n">08</span>Serving<span class="dot"></span></a></li>
+    </ol>
+    <p class="part">III · Cross-cutting</p>
+    <ol>
       <li><a href="#s9"><span class="n">09</span>Security and privacy<span class="dot"></span></a></li>
       <li><a href="#s10"><span class="n">10</span>Where it is heading<span class="dot"></span></a></li>
+    </ol>
+    <p class="part">IV · Leading</p>
+    <ol>
+      <li><a href="#s11"><span class="n">11</span>The leader's job<span class="dot"></span></a></li>
     </ol>
   </nav>
 
   <main>
-    <p class="eyebrow">A data science leader's learning log</p>
+    <p class="eyebrow">For data science leaders crossing into data engineering</p>
     <h1>The Data Engineering Map</h1>
-    <p class="intro">Data is produced in one place and needed in another. Data engineering is the discipline of moving it reliably, on time, in the right shape, and at a cost the business accepts. This guide works through that discipline one stage at a time. Each section has a core idea, a summary in my own words, and questions that test whether the idea can be applied.</p>
-    <p class="status-line">0 of 10 sections complete · by Nisseem</p>
+    <p class="intro">Data is produced in one place and needed in another. Data engineering is the discipline of moving it reliably, on time, in the right shape, and at a cost the business accepts. Most data science leaders know the consuming end of that journey well and the producing end much less. This guide works through the producing end one stage at a time, spends the most time on the mechanisms data scientists rarely see, and closes each section with what a leader is expected to decide.</p>
+    <p class="status-line">0 of 11 sections complete · about 15 to 19 hours in total · by Nisseem</p>
+
+    <section class="howto" aria-labelledby="howto">
+      <h2 id="howto">How each section works</h2>
+      <ul class="legend">
+        <li><b>Core idea</b>The mechanism, explained once, with the tradeoffs it creates.</li>
+        <li><b>From the data science side</b>What you already know under another name, and what data scientists commonly get wrong.</li>
+        <li><b>Leader's lens</b>The decisions a leader owns here, what to ask the team, and the warning signs.</li>
+        <li><b>In my words</b>A short summary written after each session, revised after critique.</li>
+        <li><b>Apply it</b>Three questions: recall, a design call, and a tradeoff with no single right answer.</li>
+      </ul>
+    </section>
 
     <section class="lifecycle" aria-labelledby="lc">
       <h2 id="lc">The lifecycle this guide follows</h2>
-      <p>Five stages carry data from where it is created to where it is used. Six undercurrents run beneath every stage.</p>
+      <p>Five stages carry data from where it is created to where it is used. Six undercurrents run beneath every stage. Subsections tagged <span class="deep">Deep dive</span> get extra time; those tagged <span class="light">Review</span> are covered briefly because data scientists usually know them already.</p>
       <ol class="stages">
         <li><b>Generation</b><span>source systems</span></li>
         <li><b>Storage</b><span>where data lives</span></li>
@@ -182,25 +225,50 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px;
       <div class="under"><strong>Undercurrents:</strong> security · data management · DataOps · data architecture · orchestration · software engineering</div>
     </section>
 
+    <!-- PART I -->
+    <header class="part-head">
+      <p class="eyebrow">Part I</p>
+      <h2>Foundations</h2>
+      <p>What the job is, what good architecture looks like, and how to choose tools without betting the team on a fad.</p>
+    </header>
+
     <article class="sec" id="s1">
       <div class="sec-head">
         <span class="n">01</span>
-        <h2>The data engineering lifecycle</h2>
+        <h3 class="title">The data engineering lifecycle</h3>
         <span class="chip next">Up next</span>
       </div>
       <p class="lede">What does a data engineer actually own, end to end?</p>
-      <p class="src">Follows Reis and Housley, chapters 1 and 2</p>
+      <p class="src">45 to 60 min · Reis and Housley, chapters 1 and 2</p>
+      <ol class="subs">
+        <li><span class="sn">1.1</span><span>What a data engineer actually owns</span></li>
+        <li><span class="sn">1.2</span><span>The four constraints: reliable, timely, right shape, affordable</span></li>
+        <li><span class="sn">1.3</span><span>The five stages: generation, storage, ingestion, transformation, serving</span></li>
+        <li><span class="sn">1.4</span><span>The six undercurrents</span></li>
+        <li><span class="sn">1.5</span><span>Data maturity: how the job changes as a company grows</span></li>
+        <li><span class="sn">1.6</span><span>Type A and Type B data engineers</span></li>
+      </ol>
       <div class="blocks">
         <div class="block">
-          <h3>Core idea</h3>
+          <h4>Core idea</h4>
           <p class="pending">Added after the teaching session.</p>
         </div>
+        <div class="pair">
+          <div class="block">
+            <h4>From the data science side</h4>
+            <p class="pending">Familiar concepts under new names, and common blind spots.</p>
+          </div>
+          <div class="block lens">
+            <h4>Leader's lens</h4>
+            <p class="pending">Decisions owned here, questions to ask, warning signs.</p>
+          </div>
+        </div>
         <div class="block mine">
-          <h3>In my words</h3>
-          <p class="pending">A 100 to 150 word summary, written after the session and revised once after critique.</p>
+          <h4>In my words</h4>
+          <p class="pending">A 100 to 150 word summary, revised after critique.</p>
         </div>
         <div class="block">
-          <h3>Apply it</h3>
+          <h4>Apply it</h4>
           <ol class="qs">
             <li><span class="lvl">Recall</span><span class="pending">Explain a choice.</span></li>
             <li><span class="lvl">Design</span><span class="pending">Make a call on a scenario.</span></li>
@@ -210,18 +278,183 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px;
       </div>
     </article>
 
-    <article class="stub" id="s2"><div class="sec-head"><span class="n">02</span><h2>Designing good data architecture</h2><span class="chip">Not started</span></div><p class="lede">What makes an architecture good, and who decides?</p><p class="src">Chapter 3</p></article>
-    <article class="stub" id="s3"><div class="sec-head"><span class="n">03</span><h2>Choosing technologies</h2><span class="chip">Not started</span></div><p class="lede">How do you pick tools without betting the team on a fad?</p><p class="src">Chapter 4</p></article>
-    <article class="stub" id="s4"><div class="sec-head"><span class="n">04</span><h2>Source systems</h2><span class="chip">Not started</span></div><p class="lede">What do you need to know about the systems that create the data?</p><p class="src">Chapter 5</p></article>
-    <article class="stub" id="s5"><div class="sec-head"><span class="n">05</span><h2>Storage</h2><span class="chip">Not started</span></div><p class="lede">Where should data live, and in what shape?</p><p class="src">Chapter 6</p></article>
-    <article class="stub" id="s6"><div class="sec-head"><span class="n">06</span><h2>Ingestion</h2><span class="chip">Not started</span></div><p class="lede">How does data get from source to platform, and how fresh must it be?</p><p class="src">Chapter 7</p></article>
-    <article class="stub" id="s7"><div class="sec-head"><span class="n">07</span><h2>Queries, modelling, and transformation</h2><span class="chip">Not started</span></div><p class="lede">How does raw data become something people can trust?</p><p class="src">Chapter 8</p></article>
-    <article class="stub" id="s8"><div class="sec-head"><span class="n">08</span><h2>Serving data</h2><span class="chip">Not started</span></div><p class="lede">How does data reach analysts, models, and applications?</p><p class="src">Chapter 9</p></article>
-    <article class="stub" id="s9"><div class="sec-head"><span class="n">09</span><h2>Security and privacy</h2><span class="chip">Not started</span></div><p class="lede">Who can see what, and how do you prove it?</p><p class="src">Chapter 10</p></article>
-    <article class="stub" id="s10"><div class="sec-head"><span class="n">10</span><h2>Where the field is heading</h2><span class="chip">Not started</span></div><p class="lede">What is stable, and what will change next?</p><p class="src">Chapter 11</p></article>
+    <article class="stub" id="s2">
+      <div class="sec-head"><span class="n">02</span><h3 class="title">Designing good data architecture</h3><span class="chip">Not started</span></div>
+      <p class="lede">What makes an architecture good, and who decides?</p>
+      <p class="src">75 to 90 min · Chapter 3</p>
+      <ol class="subs">
+        <li><span class="sn">2.1</span><span>What good means: flexible, reversible, cost-aware</span></li>
+        <li><span class="sn">2.2</span><span>One-way and two-way doors</span></li>
+        <li><span class="sn">2.3</span><span>Coupling: monoliths, microservices, and the cost of shared state</span></li>
+        <li><span class="sn">2.4</span><span>Warehouse, lake, and lakehouse patterns</span></li>
+        <li><span class="sn">2.5</span><span>Lambda and Kappa architectures</span></li>
+        <li><span class="sn">2.6</span><span>Data mesh as an organizational architecture</span></li>
+        <li><span class="sn">2.7</span><span>Brownfield and greenfield: designing around what already exists</span></li>
+      </ol>
+    </article>
+
+    <article class="stub" id="s3">
+      <div class="sec-head"><span class="n">03</span><h3 class="title">Choosing technologies</h3><span class="chip">Not started</span></div>
+      <p class="lede">How do you pick tools, and who pays for them?</p>
+      <p class="src">75 to 90 min · Chapter 4</p>
+      <ol class="subs">
+        <li><span class="sn">3.1</span><span>Team size and capability as a design constraint</span></li>
+        <li><span class="sn">3.2</span><span>Build, buy, or adopt open source</span></li>
+        <li><span class="sn">3.3</span><span>Total cost of ownership and opportunity cost</span></li>
+        <li><span class="sn">3.4</span><span>Warehouse billing models: on-demand scanning, reserved capacity, cluster-based compute<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">3.5</span><span>Separating storage from compute, and why compute dominates the bill<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">3.6</span><span>Serverless and managed services</span></li>
+        <li><span class="sn">3.7</span><span>Avoiding fads and planning for replaceability</span></li>
+      </ol>
+    </article>
+
+    <!-- PART II -->
+    <header class="part-head">
+      <p class="eyebrow">Part II</p>
+      <h2>The lifecycle in depth</h2>
+      <p>One stage at a time, from the systems that create data to the people and models that use it.</p>
+    </header>
+
+    <article class="stub" id="s4">
+      <div class="sec-head"><span class="n">04</span><h3 class="title">Source systems</h3><span class="chip">Not started</span></div>
+      <p class="lede">What do you need to know about the systems that create the data?</p>
+      <p class="src">60 to 75 min · Chapter 5</p>
+      <ol class="subs">
+        <li><span class="sn">4.1</span><span>Operational databases, APIs, event streams, files, and third-party data</span></li>
+        <li><span class="sn">4.2</span><span>Transactional and analytical workloads (OLTP and OLAP)</span></li>
+        <li><span class="sn">4.3</span><span>How databases record change: transaction logs, timestamps, triggers<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">4.4</span><span>Schema evolution at the source</span></li>
+        <li><span class="sn">4.5</span><span>Working with source owners: contracts and expectations</span></li>
+      </ol>
+    </article>
+
+    <article class="stub" id="s5">
+      <div class="sec-head"><span class="n">05</span><h3 class="title">Storage</h3><span class="chip">Not started</span></div>
+      <p class="lede">Where should data live, and in what shape?</p>
+      <p class="src">90 to 120 min · Chapter 6</p>
+      <ol class="subs">
+        <li><span class="sn">5.1</span><span>The storage hierarchy: memory, disk, and object storage</span></li>
+        <li><span class="sn">5.2</span><span>Row and columnar layouts<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">5.3</span><span>File formats: CSV, JSON, Avro, Parquet<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">5.4</span><span>Table formats: Delta Lake, Iceberg, Hudi, and what ACID adds<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">5.5</span><span>Partitioning, clustering, and compaction<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">5.6</span><span>Hot, warm, and cold data, plus retention</span></li>
+        <li><span class="sn">5.7</span><span>Storage costs in practice</span></li>
+      </ol>
+    </article>
+
+    <article class="stub" id="s6">
+      <div class="sec-head"><span class="n">06</span><h3 class="title">Ingestion</h3><span class="chip">Not started</span></div>
+      <p class="lede">How does data get from source to platform, and how fresh must it be?</p>
+      <p class="src">90 to 120 min · Chapter 7</p>
+      <ol class="subs">
+        <li><span class="sn">6.1</span><span>Batch and streaming: how fresh is fresh enough<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">6.2</span><span>Push and pull patterns</span></li>
+        <li><span class="sn">6.3</span><span>Change data capture: log-based, query-based, trigger-based<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">6.4</span><span>CDC failure modes: ordering, deletes, schema drift, backfills<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">6.5</span><span>Message queues and event streams<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">6.6</span><span>Idempotency and exactly-once delivery<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">6.7</span><span>Managed connectors and custom pipelines</span></li>
+      </ol>
+    </article>
+
+    <article class="stub" id="s7">
+      <div class="sec-head"><span class="n">07</span><h3 class="title">Queries, modelling, and transformation</h3><span class="chip">Not started</span></div>
+      <p class="lede">How does raw data become something people can trust?</p>
+      <p class="src">90 to 120 min · Chapter 8</p>
+      <ol class="subs">
+        <li><span class="sn">7.1</span><span>How a query engine executes a query</span></li>
+        <li><span class="sn">7.2</span><span>ETL to ELT, and why the order changed</span></li>
+        <li><span class="sn">7.3</span><span>Dimensional modelling: facts, dimensions, and grain<span class="light">Review</span></span></li>
+        <li><span class="sn">7.4</span><span>Slowly changing dimensions</span></li>
+        <li><span class="sn">7.5</span><span>Data vault and wide tables as alternatives</span></li>
+        <li><span class="sn">7.6</span><span>Orchestration: dependencies, retries, and backfills<span class="deep">Deep dive</span></span></li>
+        <li><span class="sn">7.7</span><span>Transformation frameworks and the analytics engineering role</span></li>
+        <li><span class="sn">7.8</span><span>Data quality: where checks physically belong in a pipeline<span class="light">Review</span></span></li>
+      </ol>
+    </article>
+
+    <article class="stub" id="s8">
+      <div class="sec-head"><span class="n">08</span><h3 class="title">Serving data</h3><span class="chip">Not started</span></div>
+      <p class="lede">How does data reach analysts, models, and applications?</p>
+      <p class="src">45 to 60 min · Chapter 9</p>
+      <ol class="subs">
+        <li><span class="sn">8.1</span><span>Serving analytics: dashboards, ad hoc analysis, semantic layers</span></li>
+        <li><span class="sn">8.2</span><span>Serving machine learning: feature pipelines and training data<span class="light">Review</span></span></li>
+        <li><span class="sn">8.3</span><span>Serving AI applications: embeddings and retrieval indexes<span class="light">Review</span></span></li>
+        <li><span class="sn">8.4</span><span>Reverse ETL: sending data back into operational tools</span></li>
+        <li><span class="sn">8.5</span><span>Freshness, latency, and service levels for consumers</span></li>
+      </ol>
+    </article>
+
+    <!-- PART III -->
+    <header class="part-head">
+      <p class="eyebrow">Part III</p>
+      <h2>Cross-cutting concerns</h2>
+      <p>The responsibilities that sit under every stage, and where the field is going next.</p>
+    </header>
+
+    <article class="stub" id="s9">
+      <div class="sec-head"><span class="n">09</span><h3 class="title">Security and privacy</h3><span class="chip">Not started</span></div>
+      <p class="lede">Who can see what, and how do you prove it?</p>
+      <p class="src">45 to 60 min · Chapter 10</p>
+      <ol class="subs">
+        <li><span class="sn">9.1</span><span>Least privilege and access control</span></li>
+        <li><span class="sn">9.2</span><span>Personal data: masking, tokenization, and deletion requests</span></li>
+        <li><span class="sn">9.3</span><span>Encryption at rest and in transit</span></li>
+        <li><span class="sn">9.4</span><span>Lineage and auditability</span></li>
+        <li><span class="sn">9.5</span><span>Security as a shared responsibility with the platform</span></li>
+      </ol>
+    </article>
+
+    <article class="stub" id="s10">
+      <div class="sec-head"><span class="n">10</span><h3 class="title">Where the field is heading</h3><span class="chip">Not started</span></div>
+      <p class="lede">What is stable, and what will change next?</p>
+      <p class="src">30 to 45 min · Chapter 11</p>
+      <ol class="subs">
+        <li><span class="sn">10.1</span><span>What has stayed stable over the last decade</span></li>
+        <li><span class="sn">10.2</span><span>Convergence of warehouse and lakehouse platforms</span></li>
+        <li><span class="sn">10.3</span><span>Streaming becoming the default</span></li>
+        <li><span class="sn">10.4</span><span>AI as both a consumer and an author of pipelines</span></li>
+        <li><span class="sn">10.5</span><span>What this means for data engineering leadership</span></li>
+      </ol>
+    </article>
+
+    <!-- PART IV -->
+    <header class="part-head">
+      <p class="eyebrow">Part IV</p>
+      <h2>Leading data engineering</h2>
+      <p>Every section ends with a leader's lens. This part pulls those threads into the role itself.</p>
+    </header>
+
+    <article class="stub" id="s11">
+      <div class="sec-head"><span class="n">11</span><h3 class="title">What is expected of a data engineering leader</h3><span class="chip">Not started</span></div>
+      <p class="lede">Which decisions belong to the leader, and how is the leader judged?</p>
+      <p class="src">60 to 90 min · Beyond the book</p>
+      <ol class="subs">
+        <li><span class="sn">11.1</span><span>Director, Head, and VP: how the scope changes</span></li>
+        <li><span class="sn">11.2</span><span>Decisions only a leader can make: platform bets, build or buy, service levels</span></li>
+        <li><span class="sn">11.3</span><span>Running the platform as a product: internal customers, roadmap, adoption</span></li>
+        <li><span class="sn">11.4</span><span>Cost ownership: unit economics, chargeback, and forecasting</span></li>
+        <li><span class="sn">11.5</span><span>Reliability as a leadership metric: incidents, on-call, postmortems</span></li>
+        <li><span class="sn">11.6</span><span>Team design: platform, embedded, and hybrid models</span></li>
+        <li><span class="sn">11.7</span><span>Working with data science, analytics, and AI teams as consumers</span></li>
+        <li><span class="sn">11.8</span><span>Talking to executives: turning pipeline health into business risk</span></li>
+        <li><span class="sn">11.9</span><span>How senior interviews test this, and what credible answers sound like</span></li>
+      </ol>
+    </article>
+
+    <article class="stub" id="appx">
+      <div class="sec-head"><span class="n">A</span><h3 class="title">Appendices</h3><span class="chip">Built as we go</span></div>
+      <ol class="subs">
+        <li><span class="sn">A.1</span><span>Glossary</span></li>
+        <li><span class="sn">A.2</span><span>One end-to-end architecture, completed after section 8</span></li>
+        <li><span class="sn">A.3</span><span>Recall question bank, one question per subsection</span></li>
+      </ol>
+    </article>
 
     <footer>
-      Concepts follow the structure of <em>Fundamentals of Data Engineering</em> by Joe Reis and Matt Housley (O'Reilly, 2022). All text here is my own. This is a living document and will change as I learn.
+      Sections 1 to 10 follow the structure of <em>Fundamentals of Data Engineering</em> by Joe Reis and Matt Housley (O'Reilly, 2022). All text here is my own. This is a living document and will change as I learn.
     </footer>
   </main>
 </div>
