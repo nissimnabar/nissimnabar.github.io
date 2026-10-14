@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>The Data Engineering Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky section index on the left, one long reading column on the right; stacks to one column on phones. */
+:root {
+  --bg: #f5f7f8;
+  --surface: #ffffff;
+  --ink: #15202a;
+  --muted: #586572;
+  --line: #dce2e7;
+  --accent: #0a6b6b;
+  --accent-soft: #e2f1f0;
+  --next: #9a5b0f;
+  --next-soft: #f8ecd9;
+  --done: #2c7a3f;
+  --done-soft: #e3f2e6;
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e141a; --surface: #151d25; --ink: #e5eaef; --muted: #9ba7b3; --line: #26323d;
+    --accent: #5cc4bb; --accent-soft: #15302f; --next: #e3a556; --next-soft: #33260f;
+    --done: #74c48a; --done-soft: #16301d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e141a; --surface: #151d25; --ink: #e5eaef; --muted: #9ba7b3; --line: #26323d;
+  --accent: #5cc4bb; --accent-soft: #15302f; --next: #e3a556; --next-soft: #33260f;
+  --done: #74c48a; --done-soft: #16301d; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 1.0625rem; line-height: 1.65;
+  padding-inline: 16px; padding-block: 0;
+}
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 56px;
+  padding-block: 48px 80px;
+}
+
+/* Index */
+.index { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; font-family: var(--f-display); }
+.index .brand { font-weight: 800; font-stretch: 85%; font-size: 1.05rem; line-height: 1.2; margin: 0 0 4px; }
+.index .ver { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); margin: 0 0 24px; }
+.index ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.index a {
+  display: grid; grid-template-columns: 28px 1fr auto; align-items: baseline; gap: 6px;
+  text-decoration: none; color: var(--ink); font-size: 0.88rem; font-weight: 500;
+  padding: 6px 8px; border-radius: 6px;
+}
+.index a:hover { background: var(--accent-soft); }
+.index .n { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--line); align-self: center; }
+.dot.next { background: var(--next); }
+.dot.done { background: var(--done); }
+
+/* Header */
+.eyebrow { font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0 0 12px; }
+h1 {
+  font-family: var(--f-display); font-weight: 800; font-stretch: 80%;
+  font-size: clamp(2.4rem, 6vw, 3.8rem); line-height: 1; letter-spacing: -0.01em;
+  margin: 0 0 18px; text-wrap: balance;
+}
+.intro { max-width: 65ch; margin: 0 0 12px; }
+.status-line { font-family: var(--f-mono); font-size: 0.8rem; color: var(--muted); margin: 0 0 40px; font-variant-numeric: tabular-nums; }
+
+/* Lifecycle */
+.lifecycle { margin: 0 0 64px; }
+.lifecycle h2 { font-family: var(--f-display); font-stretch: 85%; font-size: 1.1rem; font-weight: 700; margin: 0 0 6px; }
+.lifecycle p { color: var(--muted); font-size: 0.95rem; margin: 0 0 18px; max-width: 65ch; }
+.stages { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.stages li {
+  flex: 1 1 120px; min-width: 0;
+  background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--accent);
+  padding: 10px 12px; border-radius: 4px;
+}
+.stages b { display: block; font-family: var(--f-display); font-stretch: 85%; font-size: 0.95rem; }
+.stages span { font-family: var(--f-mono); font-size: 0.7rem; color: var(--muted); }
+.under {
+  margin-top: 8px; padding: 10px 12px; border: 1px dashed var(--line); border-radius: 4px;
+  font-family: var(--f-mono); font-size: 0.74rem; color: var(--muted); line-height: 1.6;
+}
+.under strong { color: var(--ink); font-weight: 500; }
+
+/* Sections */
+.sec { border-top: 1px solid var(--line); padding-block: 40px; scroll-margin-top: 16px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; margin-bottom: 8px; }
+.sec-head .n { font-family: var(--f-mono); font-size: 0.85rem; color: var(--muted); }
+.sec h2 {
+  font-family: var(--f-display); font-weight: 700; font-stretch: 85%;
+  font-size: clamp(1.5rem, 3.2vw, 2rem); line-height: 1.15; margin: 0; text-wrap: balance;
+}
+.chip {
+  font-family: var(--f-mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 999px; background: var(--bg); color: var(--muted); border: 1px solid var(--line);
+}
+.chip.next { background: var(--next-soft); color: var(--next); border-color: transparent; }
+.chip.done { background: var(--done-soft); color: var(--done); border-color: transparent; }
+.lede { font-style: italic; color: var(--muted); margin: 0 0 6px; max-width: 65ch; }
+.src { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); margin: 0; }
+
+.blocks { display: grid; gap: 14px; margin-top: 24px; }
+.block { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 18px 20px; min-width: 0; }
+.block h3 {
+  font-family: var(--f-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--accent); margin: 0 0 10px;
+}
+.block p { margin: 0; max-width: 65ch; }
+.block.mine { border-left: 3px solid var(--accent); }
+.pending { color: var(--muted); font-style: italic; }
+.qs { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.qs li { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.lvl { font-family: var(--f-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+
+.stub { border-top: 1px solid var(--line); padding-block: 22px; scroll-margin-top: 16px; }
+.stub h2 { font-size: 1.2rem; }
+
+footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px; font-size: 0.85rem; color: var(--muted); max-width: 65ch; }
+
+@media (max-width: 860px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-block: 28px 56px; }
+  .index { position: static; border: 1px solid var(--line); border-radius: 6px; padding: 14px; background: var(--surface); }
+  .index .ver { margin-bottom: 12px; }
+  .qs li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="index" aria-label="Sections">
+    <p class="brand">The Data Engineering Map</p>
+    <p class="ver">v0.1 · Oct 2026</p>
+    <ol>
+      <li><a href="#s1"><span class="n">01</span>The lifecycle<span class="dot next" title="Up next"></span></a></li>
+      <li><a href="#s2"><span class="n">02</span>Good architecture<span class="dot"></span></a></li>
+      <li><a href="#s3"><span class="n">03</span>Choosing technologies<span class="dot"></span></a></li>
+      <li><a href="#s4"><span class="n">04</span>Source systems<span class="dot"></span></a></li>
+      <li><a href="#s5"><span class="n">05</span>Storage<span class="dot"></span></a></li>
+      <li><a href="#s6"><span class="n">06</span>Ingestion<span class="dot"></span></a></li>
+      <li><a href="#s7"><span class="n">07</span>Modelling and transformation<span class="dot"></span></a></li>
+      <li><a href="#s8"><span class="n">08</span>Serving<span class="dot"></span></a></li>
+      <li><a href="#s9"><span class="n">09</span>Security and privacy<span class="dot"></span></a></li>
+      <li><a href="#s10"><span class="n">10</span>Where it is heading<span class="dot"></span></a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">A data science leader's learning log</p>
+    <h1>The Data Engineering Map</h1>
+    <p class="intro">Data is produced in one place and needed in another. Data engineering is the discipline of moving it reliably, on time, in the right shape, and at a cost the business accepts. This guide works through that discipline one stage at a time. Each section has a core idea, a summary in my own words, and questions that test whether the idea can be applied.</p>
+    <p class="status-line">0 of 10 sections complete · by Nisseem</p>
+
+    <section class="lifecycle" aria-labelledby="lc">
+      <h2 id="lc">The lifecycle this guide follows</h2>
+      <p>Five stages carry data from where it is created to where it is used. Six undercurrents run beneath every stage.</p>
+      <ol class="stages">
+        <li><b>Generation</b><span>source systems</span></li>
+        <li><b>Storage</b><span>where data lives</span></li>
+        <li><b>Ingestion</b><span>batch or stream</span></li>
+        <li><b>Transformation</b><span>raw to trusted</span></li>
+        <li><b>Serving</b><span>analytics, ML, apps</span></li>
+      </ol>
+      <div class="under"><strong>Undercurrents:</strong> security · data management · DataOps · data architecture · orchestration · software engineering</div>
+    </section>
+
+    <article class="sec" id="s1">
+      <div class="sec-head">
+        <span class="n">01</span>
+        <h2>The data engineering lifecycle</h2>
+        <span class="chip next">Up next</span>
+      </div>
+      <p class="lede">What does a data engineer actually own, end to end?</p>
+      <p class="src">Follows Reis and Housley, chapters 1 and 2</p>
+      <div class="blocks">
+        <div class="block">
+          <h3>Core idea</h3>
+          <p class="pending">Added after the teaching session.</p>
+        </div>
+        <div class="block mine">
+          <h3>In my words</h3>
+          <p class="pending">A 100 to 150 word summary, written after the session and revised once after critique.</p>
+        </div>
+        <div class="block">
+          <h3>Apply it</h3>
+          <ol class="qs">
+            <li><span class="lvl">Recall</span><span class="pending">Explain a choice.</span></li>
+            <li><span class="lvl">Design</span><span class="pending">Make a call on a scenario.</span></li>
+            <li><span class="lvl">Stretch</span><span class="pending">Defend one side of a real tradeoff.</span></li>
+          </ol>
+        </div>
+      </div>
+    </article>
+
+    <article class="stub" id="s2"><div class="sec-head"><span class="n">02</span><h2>Designing good data architecture</h2><span class="chip">Not started</span></div><p class="lede">What makes an architecture good, and who decides?</p><p class="src">Chapter 3</p></article>
+    <article class="stub" id="s3"><div class="sec-head"><span class="n">03</span><h2>Choosing technologies</h2><span class="chip">Not started</span></div><p class="lede">How do you pick tools without betting the team on a fad?</p><p class="src">Chapter 4</p></article>
+    <article class="stub" id="s4"><div class="sec-head"><span class="n">04</span><h2>Source systems</h2><span class="chip">Not started</span></div><p class="lede">What do you need to know about the systems that create the data?</p><p class="src">Chapter 5</p></article>
+    <article class="stub" id="s5"><div class="sec-head"><span class="n">05</span><h2>Storage</h2><span class="chip">Not started</span></div><p class="lede">Where should data live, and in what shape?</p><p class="src">Chapter 6</p></article>
+    <article class="stub" id="s6"><div class="sec-head"><span class="n">06</span><h2>Ingestion</h2><span class="chip">Not started</span></div><p class="lede">How does data get from source to platform, and how fresh must it be?</p><p class="src">Chapter 7</p></article>
+    <article class="stub" id="s7"><div class="sec-head"><span class="n">07</span><h2>Queries, modelling, and transformation</h2><span class="chip">Not started</span></div><p class="lede">How does raw data become something people can trust?</p><p class="src">Chapter 8</p></article>
+    <article class="stub" id="s8"><div class="sec-head"><span class="n">08</span><h2>Serving data</h2><span class="chip">Not started</span></div><p class="lede">How does data reach analysts, models, and applications?</p><p class="src">Chapter 9</p></article>
+    <article class="stub" id="s9"><div class="sec-head"><span class="n">09</span><h2>Security and privacy</h2><span class="chip">Not started</span></div><p class="lede">Who can see what, and how do you prove it?</p><p class="src">Chapter 10</p></article>
+    <article class="stub" id="s10"><div class="sec-head"><span class="n">10</span><h2>Where the field is heading</h2><span class="chip">Not started</span></div><p class="lede">What is stable, and what will change next?</p><p class="src">Chapter 11</p></article>
+
+    <footer>
+      Concepts follow the structure of <em>Fundamentals of Data Engineering</em> by Joe Reis and Matt Housley (O'Reilly, 2022). All text here is my own. This is a living document and will change as I learn.
+    </footer>
+  </main>
+</div>
+</body>
+</html>
