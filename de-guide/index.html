@@ -91,6 +91,22 @@ h1 {
 .legend li { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; min-width: 0; font-size: 0.9rem; line-height: 1.45; }
 .legend b { display: block; font-family: var(--f-mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
 
+/* Approach */
+.approach { margin: 0 0 48px; }
+.approach h2 { font-family: var(--f-display); font-stretch: 85%; font-size: 1.1rem; font-weight: 700; margin: 0 0 12px; }
+.approach > p { max-width: 65ch; margin: 0 0 16px; }
+.gaps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin: 0 0 20px; }
+.gap { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--next); border-radius: 4px; padding: 10px 12px; min-width: 0; font-size: 0.9rem; line-height: 1.45; }
+.gap.ok { border-left-color: var(--done); }
+.gap b { display: block; font-family: var(--f-mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.steps { margin: 0 0 20px; padding: 0; list-style: none; counter-reset: st; display: grid; gap: 8px; }
+.steps li { counter-increment: st; position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px 10px 48px; font-size: 0.95rem; line-height: 1.5; }
+.steps li::before { content: counter(st, decimal-leading-zero); position: absolute; left: 12px; top: 10px; font-family: var(--f-mono); font-size: 0.8rem; color: var(--accent); }
+.steps b { font-family: var(--f-display); font-stretch: 85%; }
+.rules { margin: 0; padding-left: 1.2em; font-size: 0.95rem; max-width: 65ch; }
+.rules li { margin-bottom: 4px; }
+.approach h3 { font-family: var(--f-mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+
 /* Lifecycle */
 .lifecycle { margin: 0 0 56px; }
 .lifecycle p { color: var(--muted); font-size: 0.95rem; margin: 0 0 18px; max-width: 65ch; }
@@ -169,7 +185,8 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px;
 <div class="wrap">
   <nav class="index" aria-label="Sections">
     <p class="brand">The Data Engineering Map</p>
-    <p class="ver">v0.2 · Oct 2026</p>
+    <p class="ver">v0.3 · Oct 2026</p>
+    <ol><li><a href="#approach"><span class="n">00</span>The approach<span class="dot"></span></a></li></ol>
     <p class="part">I · Foundations</p>
     <ol>
       <li><a href="#s1"><span class="n">01</span>The lifecycle<span class="dot next" title="Up next"></span></a></li>
@@ -200,6 +217,37 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px;
     <h1>The Data Engineering Map</h1>
     <p class="intro">Data is produced in one place and needed in another. Data engineering is the discipline of moving it reliably, on time, in the right shape, and at a cost the business accepts. Most data science leaders know the consuming end of that journey well and the producing end much less. This guide works through the producing end one stage at a time, spends the most time on the mechanisms data scientists rarely see, and closes each section with what a leader is expected to decide.</p>
     <p class="status-line">0 of 11 sections complete · about 15 to 19 hours in total · by Nisseem</p>
+
+    <section class="approach" aria-labelledby="approach">
+      <h2 id="approach">The approach</h2>
+      <p>I lead data science and analytics teams. I can judge whether a pipeline design serves the business; I am weaker at explaining what is physically happening inside it. As AI writes more of the code, that physical understanding matters more for a leader, not less, because it is what lets you question a design you did not write.</p>
+
+      <h3>Where I started</h3>
+      <p>Before building anything, I ran a diagnostic across seven areas of data engineering, answered cold and scored strictly.</p>
+      <div class="gaps">
+        <div class="gap"><b>Gap · scored zero</b>Change data capture: how a pipeline reads change from a source database, and how that goes wrong.</div>
+        <div class="gap"><b>Gap · scored zero</b>Warehouse billing and compute models: what you actually pay for, and why compute dominates the bill.</div>
+        <div class="gap ok"><b>Passing · five areas</b>Sound judgment, missing vocabulary. The fix there is naming, not relearning.</div>
+      </div>
+      <p>The pattern was clear. Governance and decision judgment were not the problem. Mechanisms were. So the guide spends its <span class="deep">Deep dive</span> time on mechanisms and moves quickly through what data scientists already know.</p>
+
+      <h3>How I learn it</h3>
+      <ol class="steps">
+        <li><b>Read narrowly.</b> Only the chapter sections a topic needs, as vocabulary preparation. Reading is the warm-up, not the destination.</li>
+        <li><b>Learn on live systems.</b> The primary instrument is the platforms my teams run every day, BigQuery and Databricks, and conversations with the engineers who operate them. A mechanism I can trace on a real pipeline sticks; one I read about does not.</li>
+        <li><b>Compare two platforms side by side.</b> BigQuery and Databricks with Delta Lake make different bets on storage, compute, and billing. Holding both in view turns facts into tradeoffs.</li>
+        <li><b>Explain it back.</b> After each session I summarize the section aloud in 100 to 150 words, get it critiqued, and revise. That becomes the "In my words" block.</li>
+        <li><b>Apply it.</b> Three scenario questions per section: recall, a design call, and a tradeoff with no single right answer.</li>
+        <li><b>Generalize.</b> Broader reading after the live work, to turn platform-specific knowledge into judgment that transfers to any stack.</li>
+      </ol>
+
+      <h3>Rules I hold myself to</h3>
+      <ul class="rules">
+        <li>Scenarios only. No abstract concept reviews.</li>
+        <li>Every session produces something checkable: a summary, an answer, or a diagram.</li>
+        <li>The diagnostic gets rerun when the sequence ends, so progress is measured, not assumed.</li>
+      </ul>
+    </section>
 
     <section class="howto" aria-labelledby="howto">
       <h2 id="howto">How each section works</h2>
