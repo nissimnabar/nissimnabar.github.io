@@ -99,10 +99,6 @@ h1 {
 .gap { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--next); border-radius: 4px; padding: 10px 12px; min-width: 0; font-size: 0.9rem; line-height: 1.45; }
 .gap.ok { border-left-color: var(--done); }
 .gap b { display: block; font-family: var(--f-mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
-.steps { margin: 0 0 20px; padding: 0; list-style: none; counter-reset: st; display: grid; gap: 8px; }
-.steps li { counter-increment: st; position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px 10px 48px; font-size: 0.95rem; line-height: 1.5; }
-.steps li::before { content: counter(st, decimal-leading-zero); position: absolute; left: 12px; top: 10px; font-family: var(--f-mono); font-size: 0.8rem; color: var(--accent); }
-.steps b { font-family: var(--f-display); font-stretch: 85%; }
 .rules { margin: 0; padding-left: 1.2em; font-size: 0.95rem; max-width: 65ch; }
 .rules li { margin-bottom: 4px; }
 .approach h3 { font-family: var(--f-mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
@@ -231,15 +227,6 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px;
       </div>
       <p>The pattern was clear. Governance and decision judgment were not the problem. Mechanisms were. So the guide spends its <span class="deep">Deep dive</span> time on mechanisms and moves quickly through what data scientists already know.</p>
 
-      <h3>How I learn it</h3>
-      <ol class="steps">
-        <li><b>Read narrowly.</b> Only the chapter sections a topic needs, as vocabulary preparation. Reading is the warm-up, not the destination.</li>
-        <li><b>Learn on live systems.</b> The primary instrument is the platforms my teams run every day, BigQuery and Databricks, and conversations with the engineers who operate them. A mechanism I can trace on a real pipeline sticks; one I read about does not.</li>
-        <li><b>Compare two platforms side by side.</b> BigQuery and Databricks with Delta Lake make different bets on storage, compute, and billing. Holding both in view turns facts into tradeoffs.</li>
-        <li><b>Explain it back.</b> After each session I summarize the section aloud in 100 to 150 words, get it critiqued, and revise. That becomes the "In my words" block.</li>
-        <li><b>Apply it.</b> Three scenario questions per section: recall, a design call, and a tradeoff with no single right answer.</li>
-        <li><b>Generalize.</b> Broader reading after the live work, to turn platform-specific knowledge into judgment that transfers to any stack.</li>
-      </ol>
 
       <h3>Rules I hold myself to</h3>
       <ul class="rules">
