@@ -159,6 +159,9 @@ h1 {
 .block.lens h4 { color: var(--next); }
 .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
 .pending { color: var(--muted); font-style: italic; }
+.pts { margin: 10px 0 0; padding-left: 1.3em; display: grid; gap: 8px; max-width: 65ch; }
+.block > p + .pts { margin-top: 12px; }
+.block h4 + .pts { margin-top: 0; }
 .qs { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .qs li { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; align-items: baseline; }
 .lvl { font-family: var(--f-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
@@ -177,11 +180,11 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px;
 <div class="wrap">
   <nav class="index" aria-label="Sections">
     <p class="brand">The Data Engineering Map</p>
-    <p class="ver">v0.3 · Oct 2026</p>
+    <p class="ver">v0.4 · Oct 2026</p>
     <ol><li><a href="#approach"><span class="n">00</span>The approach<span class="dot"></span></a></li></ol>
     <p class="part">I · Foundations</p>
     <ol>
-      <li><a href="#s1"><span class="n">01</span>The lifecycle<span class="dot next" title="Up next"></span></a></li>
+      <li><a href="#s1"><span class="n">01</span>The lifecycle<span class="dot done" title="Complete"></span></a></li>
       <li><a href="#s2"><span class="n">02</span>Good architecture<span class="dot"></span></a></li>
       <li><a href="#s3"><span class="n">03</span>Choosing technologies<span class="dot"></span></a></li>
     </ol>
@@ -208,7 +211,7 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px;
     <p class="eyebrow">For data science leaders crossing into data engineering</p>
     <h1>The Data Engineering Map</h1>
     <p class="intro">Data is produced in one place and needed in another. Data engineering is the discipline of moving it reliably, on time, in the right shape, and at a cost the business accepts. Most data science leaders know the consuming end of that journey well and the producing end much less. This guide works through the producing end one stage at a time, spends the most time on the mechanisms data scientists rarely see, and closes each section with what a leader is expected to decide.</p>
-    <p class="status-line">0 of 11 sections complete · about 15 to 19 hours in total · by Nisseem</p>
+    <p class="status-line">1 of 11 sections complete · about 15 to 19 hours in total · by Nisseem</p>
 
     <section class="approach" aria-labelledby="approach">
       <h2 id="approach">The approach</h2>
@@ -257,7 +260,7 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px;
       <div class="sec-head">
         <span class="n">01</span>
         <h3 class="title">The data engineering lifecycle</h3>
-        <span class="chip next">Up next</span>
+        <span class="chip done">Complete</span>
       </div>
       <p class="lede">What does a data engineer actually own, end to end?</p>
       <p class="src">45 to 60 min · Reis and Housley, chapters 1 and 2</p>
@@ -272,28 +275,52 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px;
       <div class="blocks">
         <div class="block">
           <h4>Core idea</h4>
-          <p class="pending">Added after the teaching session.</p>
+          <p>Running scenario: a daily demand forecast fed by sales transactions from many sites, a promotions calendar kept by a business team, and inventory snapshots.</p>
+          <ol class="pts">
+            <li><b>What the job owns.</b> The path between the people who produce data and the people who consume it. Producers create data for their own purpose; the data engineer turns it into data fit for another, and so owns the contract between source and use, whether anyone wrote it down or not.</li>
+            <li><b>Four constraints.</b> Reliable, timely, right shape, affordable. They trade against each other, and most design arguments are about which one gives way. Real time is a cost decision: the question is what an hour of lateness costs the business.</li>
+            <li><b>Right shape</b> means the grain, structure, business meaning, and time correctness a consumer can use directly. Data can be correct, on time, and cheap, and still be the wrong shape.</li>
+            <li><b>Five stages.</b> Generation, storage, ingestion, transformation, serving. Storage sits under every stage. Ingestion is where most failures happen, because data crosses a system boundary.</li>
+            <li><b>Six undercurrents.</b> Security, data management, DataOps, data architecture, orchestration, software engineering. Weak pipelines usually fail on an undercurrent, not a stage. The engineer owns orchestration, software engineering, and DataOps outright; shares data management and architecture; and enforces security policy that others set.</li>
+            <li><b>Maturity.</b> Starting, scaling, leading with data. The failure is the wrong stage's tools: a platform built for scale at stage one, or one person's heroics at stage two.</li>
+            <li><b>Type A and Type B.</b> Type A works at a higher abstraction and buys managed services. Type B builds, where infrastructure is a competitive edge. The warning sign is Type B behaviour in a Type A business.</li>
+          </ol>
         </div>
         <div class="pair">
           <div class="block">
             <h4>From the data science side</h4>
-            <p class="pending">Familiar concepts under new names, and common blind spots.</p>
+            <ol class="pts">
+              <li>Feature engineering is transformation, usually done without the reliability constraint.</li>
+              <li>A training set is a served dataset and deserves the same contract as a dashboard.</li>
+              <li>Leakage is an as-of correctness problem: training on a source edited after the fact uses information the model never had.</li>
+              <li>The blind spot: treating data as a static table, not a flow that arrives late and gets corrected.</li>
+            </ol>
           </div>
           <div class="block lens">
             <h4>Leader's lens</h4>
-            <p class="pending">Decisions owned here, questions to ask, warning signs.</p>
+            <ol class="pts">
+              <li>Decide explicitly, per pipeline, which constraint gives way, and who in the business agrees to it.</li>
+              <li>Ask: who gets paged when this fails? What does a day of lateness actually cost? Which source change would break this silently?</li>
+              <li>Prefer gates to alerts: a gate stops bad data reaching the consumer; an alert only tells someone.</li>
+              <li>Warning signs: no owner for source contracts, freshness requirements with no cost justification, every pipeline built differently.</li>
+            </ol>
           </div>
         </div>
         <div class="block mine">
           <h4>In my words</h4>
-          <p class="pending">A 100 to 150 word summary, revised after critique.</p>
+          <ol class="pts">
+            <li>The data engineer turns data that producers create for their own purpose into data fit for downstream use, and is accountable for the path and the contract between source and consumer, written or not.</li>
+            <li>In my world, timeliness gives way most. Few decisions need real-time data, and running more often adds cost without value. The exceptions are decisions where an hour of lateness has a real price, such as fraud or in-store replenishment.</li>
+            <li>As the practice matures, the job moves from running pipelines, to standardising them, to managing explicit contracts and SLAs. The classic failure is using the wrong stage's tools: a platform built for scale at stage one, or one person's heroics at stage two.</li>
+            <li>Data flows in a cycle: producers, engineering, science, and back to the business. That makes contracts easier to enforce, but the output reshapes the data the next model learns from.</li>
+          </ol>
         </div>
         <div class="block">
           <h4>Apply it</h4>
           <ol class="qs">
-            <li><span class="lvl">Recall</span><span class="pending">Explain a choice.</span></li>
-            <li><span class="lvl">Design</span><span class="pending">Make a call on a scenario.</span></li>
-            <li><span class="lvl">Stretch</span><span class="pending">Defend one side of a real tradeoff.</span></li>
+            <li><span class="lvl">Recall</span><span>A weekly performance dashboard shows a 40% sales drop for one region on Monday, which recovers by Wednesday with no change in the underlying business. Name the two most likely points of failure, by stage or undercurrent, and the control that would have caught each before publication.</span></li>
+            <li><span class="lvl">Design</span><span>A business team keeps a promotions calendar in a shared spreadsheet and edits it after the fact: dates shift, discounts are corrected, cancelled promotions are deleted. It feeds both a dashboard and a forecast's training data. How would you ingest and store it, which constraint gives way, and what one clause goes in the contract with the team?</span></li>
+            <li><span class="lvl">Stretch</span><span>An operations team asks for a 30-minute sales refresh. Today the pipeline runs nightly, 30% of sites can only upload at end of day for the next year, and the faster version costs about 15 times more and needs on-call support. Build it, build part of it, or push back? Who has to agree?</span></li>
           </ol>
         </div>
       </div>
@@ -471,6 +498,16 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px;
         <li><span class="sn">A.1</span><span>Glossary</span></li>
         <li><span class="sn">A.2</span><span>One end-to-end architecture, completed after section 8</span></li>
         <li><span class="sn">A.3</span><span>Recall question bank, one question per subsection</span></li>
+      </ol>
+      <ol class="pts glossary">
+        <li><b>Data contract.</b> What a source delivers (schema, meaning, timing, completeness) and what consumers can rely on, written or not.</li>
+        <li><b>Grain.</b> What one row represents: a transaction line, a site-day, a site-week.</li>
+        <li><b>As-of correctness.</b> Each row reflects only what was known at that point in time.</li>
+        <li><b>Idempotent load.</b> Running a load once or many times for the same input leaves the target in the same state.</li>
+        <li><b>Completeness gate.</b> A check that blocks or flags publication until the expected data has arrived.</li>
+        <li><b>SCD type 2.</b> A history table with valid-from and valid-to times per record, so past states can be rebuilt.</li>
+        <li><b>Reverse ETL.</b> Pushing warehouse data back into operational tools.</li>
+        <li><b>Censored demand.</b> Recorded sales capped by available stock, so sales understate demand.</li>
       </ol>
     </article>
 
